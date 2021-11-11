@@ -2,10 +2,6 @@ import java.util.Arrays;
 import java.util.ArrayList;
 
 
-interface Command{
-    void execute();
-}
-
 public class Robot{
 	int x = 0;
 	int y = 0;
@@ -24,7 +20,7 @@ public class Robot{
 		this.direction = direction;
 	}
 	
-	void commandLeft(){
+	private void commandLeft(){
 		if(direction == "North"){
 			direction = "West";
 		}
@@ -38,12 +34,12 @@ public class Robot{
 			direction = "South";
 	}
 	
-	void turnLeft(){
+	private void turnLeft(){
 		Command command = () -> commandLeft();
 		commands.add(command);
 	}
 	
-	void commandRight(){
+	private void commandRight(){
 		if(direction == "North"){
 			direction = "East";
 		}
@@ -57,13 +53,13 @@ public class Robot{
 			direction = "North";
 	}
 	
-	void turnRight(){
+	private void turnRight(){
 		Command command = () -> commandRight();
 		commands.add(command);
 	}
 	
 	
-	void commandForward(int speed){
+	private void commandForward(int speed){
 		if(speed > 3){
 			System.out.println("Not a legal move.");
 		}
@@ -80,18 +76,18 @@ public class Robot{
 			x += (-1 * speed);
 	}
 	
-	void forward(){
+	private void forward(){
 		Command command = () -> commandForward(1);
 		commands.add(command);
 	}
 	
-	void forward(int speed){
+	private void forward(int speed){
 		Command command = () -> commandForward(speed);
 		commands.add(command);
 	}
 	
 		
-	void commandBackward(int speed){
+	private void commandBackward(int speed){
 		if(speed > 3){
 			System.out.println("Not a legal move.");
 		}
@@ -108,30 +104,32 @@ public class Robot{
 			x += speed;
 	}		
 	
-	void backward(){
+	private void backward(){
 		Command command = () -> commandBackward(1);
 		commands.add(command);
 	}
 	
-	void backward(int speed){
+	private void backward(int speed){
 		Command command = () -> commandBackward(speed);
 		commands.add(command);
 	}
 	
-	void execute(){
+	private void execute(){
 		commands.forEach(command -> command.execute());
 		commands.clear();
 	}
 	
-	void printState(){
+	private void printState(){
 		System.out.println("You are currently facing " + direction + " at position (" + x + "," + y + ").");
 	}		
 	
 	public static void main (String[] args)  {
 		Robot myFirstRobot = new Robot(1, 0, "West");
 		myFirstRobot.turnLeft();
-		myFirstRobot.backward(4);
-		myFirstRobot.turnRight();
+		myFirstRobot.backward(3);
+		myFirstRobot.turnLeft();
+		myFirstRobot.forward();
+		myFirstRobot.forward(2);
 		myFirstRobot.execute();
 		myFirstRobot.printState();
 	}
